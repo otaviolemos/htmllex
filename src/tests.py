@@ -19,7 +19,7 @@ def test_single_tag_with_closing_tag():
   assert lex.get_result() == "html\n"
 
 def test_single_tag_with_single_attribute():
-  text = "<object type=\"application/x-flash\"\>"
+  text = "<object type=\"application/x-flash\"/>"
   lex = HtmlLex(text)
   lex.process()
   assert lex.get_result() == "object\n-> type > application/x-flash\n"
@@ -31,7 +31,7 @@ def test_ignores_comment():
   assert lex.get_result() == ""
 
 def test_with_two_parameters():
-  text = "<object type=\"application/x-flash\" data=\"your-file.swf\"\>"
+  text = "<object type=\"application/x-flash\" data=\"your-file.swf\"/>"
   lex = HtmlLex(text)
   lex.process()
   assert lex.get_result() == "object\n-> type > application/x-flash\n-> data > your-file.swf\n"
