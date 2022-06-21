@@ -13,6 +13,7 @@ class HtmlLex:
 
     def process(self):
       self._strip_comments()
+      self._strip_extra_spaces_and_newlines()
       tags_list = self.text.split("<")
       for tag in tags_list:
         self.index = 0
@@ -22,7 +23,7 @@ class HtmlLex:
         if tag_name[0] == "/":
             continue
         self.result = self.result + tag_name + "\n"
-        while (tag[self.index] in (" ", "\n") ) and tag[self.index+1].isalpha():
+        while tag[self.index] in (" ", "\n") and tag[self.index+1].isalpha():
           self.result = self.result + "-> "
           self.index += 1
           attribute_name = self._get_token(tag, ["="])
@@ -38,6 +39,9 @@ class HtmlLex:
         start_index = self.text.find("<!--")
         end_index = self.text.find("-->")
         self.text = self.text[:start_index] + self.text[end_index+3:]
+
+    def _strip_extra_spaces_and_newlines(self):
+      self.text = " ".join(self.text.split())
 
     def get_result(self):
         return self.result
