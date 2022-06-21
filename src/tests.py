@@ -37,26 +37,16 @@ def test_with_two_parameters():
   assert lex.get_result() == "object\n-> type > application/x-flash\n-> data > your-file.swf\n"
 
 def test_with_complete_html():
-  text = """<head>
-<title>HTML</title>
-</head>
-<object type="application/x-flash"
-data="your-file.swf"
-width="0" height="0">
-<!-- <param name="movie" value="your-file.swf" /> -->
-<param name="quality" value="high"/>
-</object>"""
+  text = """<head><title>HTML</title></head><object type="application/x-flash"  data="your-file.swf"  width="0" height="0">  <!-- <param name="movie" value="your-file.swf" /> -->  <param name="quality" value="high"/></object>"""
   lex = HtmlLex(text)
   lex.process()
-  print(lex.get_result())
-#       self.assertEqual(lex.get_result(), 
-#         """head
-# title
-# object
-# -> type > application/x-flash
-# -> data > your-file.swf
-# -> width > 0
-# -> height > 0
-# param
-# -> name > quality
-# -> value > high""")
+  assert lex.get_result() == """head
+title
+object
+-> type > application/x-flash
+-> data > your-file.swf
+-> width > 0
+-> height > 0
+param
+-> name > quality
+-> value > high\n"""
